@@ -1,11 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, Dimensions } from 'react-native';
+import SearchBar from './components/SearchBar';
+import Weather from './components/Weather';
 
 export default function App() {
+
+  const [ newName, setNewName ] = useState('');
+  const [ backgroundImg, setBackgroundImg ] = useState('');
+
+  function cityName(name){
+    setNewName(name);
+  }
+
+  function backgroundHandler(background){
+    setBackgroundImg(background);
+    console.log(backgroundImg)
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+        <ImageBackground source={backgroundImg} resizeMode='cover' style={styles.container}>
+          <SearchBar newName={cityName} />
+          <Weather cityName={newName} background={backgroundHandler} />
+        </ImageBackground>
     </View>
   );
 }
@@ -13,8 +30,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    width: Dimensions.get('screen').width,
   },
 });
